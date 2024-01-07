@@ -9,17 +9,12 @@ import { shortMonths, humanDays } from "./assets/dates";
 function App() {
 	const [step, setStep] = useState(1);
 	const [count, setCount] = useState(0);
-  const currentDate = new Date()
-  currentDate.setDate(currentDate.getDate() - count)
+	const currentDate = new Date();
+	currentDate.setDate(currentDate.getDate() + count);
 
 	// * stepSize functions
 	function stepSizePlus() {
 		setStep((currentState) => currentState + 1);
-		// // * This works
-		// setStep((currentState) => {
-		// setCount(() => currentState + 1)
-		// return  currentState + 1
-		// })
 	}
 
 	function stepSizeMinus() {
@@ -29,46 +24,37 @@ function App() {
 	// * Counter functions
 	function decrementDate() {
 		setCount((previousValue) => previousValue - step);
-		// setCurrentDate((previousDate) => {
-		// 	// return new Date(previousDate.setDate(previousDate.getDate() - step));
-    //   const prev = previousDate.setDate(previousDate.getDate() - step) 
-    //   console.log(previousDate, "TODAY")
-		// 	return new Date(prev);
-		// });
 	}
 
 	function counterPlus() {
 		setCount((previousValue) => previousValue + step);
-		// setCurrentDate((previousDate) => {
-		// 	return new Date(previousDate.getDate() + 1);
-		// });
 	}
 
 	return (
-		<VStack backgroundColor="beige" height="100vh" alignItems="center" justifyContent="center">
-      <Heading
-      mb="2rem"
-      >Simple Time Teller</Heading>
+		<VStack
+			backgroundColor='beige'
+			height='100vh'
+			alignItems='center'
+			justifyContent='center'
+		>
+			<Heading mb='2rem'>Simple Time Teller</Heading>
 			<HStack>
-        {/* * Step size */}
+				{/* * Step size */}
 				<MinusIcon onClick={stepSizeMinus} cursor='pointer' boxSize={8} />
 				<Text fontSize='2rem'>step: {step}</Text>
 				<PlusSquareIcon onClick={stepSizePlus} cursor='pointer' boxSize={8} />
-        {/* * Step size finish */}
+				{/* * Step size finish */}
 			</HStack>
 			<HStack>
-        {/*  * Date modifier */}
-				<MinusIcon onClick={() => decrementDate()} cursor='pointer' boxSize={8} />
+				{/*  * Date modifier */}
+				<MinusIcon onClick={decrementDate} cursor='pointer' boxSize={8} />
 				<Text fontSize='2rem'>count: {count}</Text>
 				<PlusSquareIcon onClick={counterPlus} cursor='pointer' boxSize={8} />
-        {/*  * Date modifier */}
+				{/*  * Date modifier */}
 			</HStack>
-      {/* * OUTPUT */}
+			{/* * OUTPUT */}
 			<Text fontSize='2.5rem'>
-				Today is{" "}
-				{`${humanDays[currentDate.getDay()]} ${
-					shortMonths[currentDate.getMonth()]
-				} ${currentDate.getDay()} ${currentDate.getFullYear()}`}
+				{count !== 0 ? count : ""} {count === 0 ? `Today is` : count > 0 ? "days from today is" : "days ago"} {`${humanDays[currentDate.getDay()]} ${shortMonths[currentDate.getMonth()]} ${currentDate.getDate()} ${currentDate.getFullYear()}`}
 			</Text>
 		</VStack>
 	);
