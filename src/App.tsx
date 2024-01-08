@@ -78,7 +78,9 @@ function App() {
 					shortMonths[currentDate.getMonth()]
 				} ${currentDate.getDate()} ${currentDate.getFullYear()}`}
 			</Text>
-			<Button onClick={resetParams}>RESET</Button>
+			{step !== 1 || count !== 0 && <Button onClick={resetParams}>RESET</Button>}
+			{step !== 1 || count !== 0 ? <Button onClick={resetParams}>RESET</Button> : <></>}
+			
 		</VStack>
 	);
 }
