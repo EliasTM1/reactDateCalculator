@@ -1,5 +1,5 @@
 import { MinusIcon, PlusSquareIcon } from "@chakra-ui/icons";
-import { VStack, Text, HStack, Heading } from "@chakra-ui/react";
+import { VStack, Text, HStack, Heading, Input } from "@chakra-ui/react";
 import { useState } from "react";
 import { shortMonths, humanDays } from "./assets/dates";
 
@@ -9,16 +9,17 @@ import { shortMonths, humanDays } from "./assets/dates";
 function App() {
 	const [step, setStep] = useState(1);
 	const [count, setCount] = useState(0);
+	const [slider, setSlider] = useState("1");
+
 	const currentDate = new Date();
 	currentDate.setDate(currentDate.getDate() + count);
 
 	// * stepSize functions
-	function stepSizePlus() {
-		setStep((currentState) => currentState + 1);
-	}
-
-	function stepSizeMinus() {
-		setStep((currentState) => currentState - 1);
+	function handleSlide(e: any) {
+		e.preventDefault();
+		const currentValue = e.target.value;
+		setSlider(currentValue);
+		setStep(() => Number(currentValue));
 	}
 
 	// * Counter functions
@@ -28,6 +29,12 @@ function App() {
 
 	function counterPlus() {
 		setCount((previousValue) => previousValue + step);
+	}
+
+	function handleUserInput(e: any) {
+		e.preventDefault();
+		console.log(e.target.value, "TETBOS");
+		setCount(Number(e.target.value));
 	}
 
 	return (
@@ -40,21 +47,33 @@ function App() {
 			<Heading mb='2rem'>Simple Time Teller</Heading>
 			<HStack>
 				{/* * Step size */}
-				<MinusIcon onClick={stepSizeMinus} cursor='pointer' boxSize={8} />
-				<Text fontSize='2rem'>step: {step}</Text>
-				<PlusSquareIcon onClick={stepSizePlus} cursor='pointer' boxSize={8} />
+				<input
+					type='range'
+					onChange={(e) => handleSlide(e)}
+					value={slider}
+					min={1}
+				/>
+				<Text fontSize='2rem'>{step}</Text>
 				{/* * Step size finish */}
 			</HStack>
 			<HStack>
 				{/*  * Date modifier */}
 				<MinusIcon onClick={decrementDate} cursor='pointer' boxSize={8} />
-				<Text fontSize='2rem'>count: {count}</Text>
+				<Input type='number' value={count} onChange={(e) => handleUserInput(e)} />
 				<PlusSquareIcon onClick={counterPlus} cursor='pointer' boxSize={8} />
 				{/*  * Date modifier */}
 			</HStack>
 			{/* * OUTPUT */}
 			<Text fontSize='2.5rem'>
-				{count !== 0 ? count : ""} {count === 0 ? `Today is` : count > 0 ? "days from today is" : "days ago"} {`${humanDays[currentDate.getDay()]} ${shortMonths[currentDate.getMonth()]} ${currentDate.getDate()} ${currentDate.getFullYear()}`}
+				{count !== 0 ? count : ""}{" "}
+				{count === 0
+					? `Today is`
+					: count > 0
+					? "days from today is"
+					: "days ago"}{" "}
+				{`${humanDays[currentDate.getDay()]} ${
+					shortMonths[currentDate.getMonth()]
+				} ${currentDate.getDate()} ${currentDate.getFullYear()}`}
 			</Text>
 		</VStack>
 	);
