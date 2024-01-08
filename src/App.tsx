@@ -1,5 +1,5 @@
 import { MinusIcon, PlusSquareIcon } from "@chakra-ui/icons";
-import { VStack, Text, HStack, Heading, Input } from "@chakra-ui/react";
+import { VStack, Text, HStack, Heading, Input, Button } from "@chakra-ui/react";
 import { useState } from "react";
 import { shortMonths, humanDays } from "./assets/dates";
 
@@ -33,6 +33,11 @@ function App() {
 		e.preventDefault();
 		console.log(e.target.value, "TETBOS");
 		setCount(Number(e.target.value));
+	}
+
+	function resetParams() {
+		setStep(1)
+		setCount(0)
 	}
 
 	return (
@@ -73,6 +78,7 @@ function App() {
 					shortMonths[currentDate.getMonth()]
 				} ${currentDate.getDate()} ${currentDate.getFullYear()}`}
 			</Text>
+			<Button onClick={resetParams}>RESET</Button>
 		</VStack>
 	);
 }
