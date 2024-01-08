@@ -9,7 +9,6 @@ import { shortMonths, humanDays } from "./assets/dates";
 function App() {
 	const [step, setStep] = useState(1);
 	const [count, setCount] = useState(0);
-	const [slider, setSlider] = useState("1");
 
 	const currentDate = new Date();
 	currentDate.setDate(currentDate.getDate() + count);
@@ -18,7 +17,6 @@ function App() {
 	function handleSlide(e: any) {
 		e.preventDefault();
 		const currentValue = e.target.value;
-		setSlider(currentValue);
 		setStep(() => Number(currentValue));
 	}
 
@@ -50,7 +48,7 @@ function App() {
 				<input
 					type='range'
 					onChange={(e) => handleSlide(e)}
-					value={slider}
+					value={step}
 					min={1}
 				/>
 				<Text fontSize='2rem'>{step}</Text>
@@ -59,7 +57,7 @@ function App() {
 			<HStack>
 				{/*  * Date modifier */}
 				<MinusIcon onClick={decrementDate} cursor='pointer' boxSize={8} />
-				<Input type='number' value={count} onChange={(e) => handleUserInput(e)} />
+				<Input type='number' value={count === 0 ? "" : count} onChange={(e) => handleUserInput(e)} />
 				<PlusSquareIcon onClick={counterPlus} cursor='pointer' boxSize={8} />
 				{/*  * Date modifier */}
 			</HStack>
